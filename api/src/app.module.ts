@@ -3,10 +3,12 @@ import { HttpModule } from '@nestjs/axios';
 import { SearchController } from './presentation/search.controller';
 import { SearchService } from './application/search.service';
 import { DuckDuckGoRepository } from './infra/repositories/duckduckgo.repository';
-import { SEARCH_PROVIDER } from './application/constants/providers';
+import { CustomRedisModule } from './infra/cache/redis/redis.module';
+
+import { SEARCH_PROVIDER } from './shared/constants/providers';
 
 @Module({
-  imports: [HttpModule],
+  imports: [HttpModule, CustomRedisModule],
   controllers: [SearchController],
   providers: [
     SearchService,

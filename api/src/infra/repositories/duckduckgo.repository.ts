@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { ISearchProvider } from '../../application/interfaces/search-provider.interface';
-import { SearchResult } from '../../domain/search-result.entity';
+import { SearchResult } from '../../domain/entities/search-result.entity';
 
 type DuckDuckGoTopic = {
   FirstURL: string;
