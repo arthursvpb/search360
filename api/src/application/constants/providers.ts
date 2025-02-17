@@ -1,0 +1,1 @@
+export const SEARCH_PROVIDER = 'SEARCH_PROVIDER';
