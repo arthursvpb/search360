@@ -8,7 +8,7 @@ import { RedisService } from './redis.service';
       type: 'single',
       options: {
         host: process.env.REDIS_HOST || 'redis',
-        port: Number(process.env.REDIS_PORT) || 6379,
+        port: Number(process.env.REDIS_PORT) || 6380,
       },
     }),
   ],
