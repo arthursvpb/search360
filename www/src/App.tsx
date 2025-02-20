@@ -1,16 +1,28 @@
-import './App.css';
+import { useState } from 'react';
+import { Container, Typography } from '@mui/material';
+import { SearchBar } from './components/SearchBar.tsx';
+import { SearchResults } from './components/SearchResults.tsx';
+import { search } from './api/search';
 
-import { Button, Container, Typography } from '@mui/material';
+export const App = () => {
+  const [results, setResults] = useState<{ title: string; url: string }[]>([]);
 
-export const App: React.FC = () => {
+  const handleSearch = async (query: string) => {
+    try {
+      const data = await search(query);
+      setResults(data);
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
+  };
+
   return (
-    <Container sx={{ textAlign: 'center', mt: 5 }}>
-      <Typography variant="h4" color="primary">
-        Search for anything 🐥
+    <Container sx={{ mt: 5 }}>
+      <Typography variant="h5" color="primary" gutterBottom>
+        🐥 Search360
       </Typography>
-      <Button variant="contained" color="secondary" sx={{ mt: 2 }}>
-        <Typography variant="caption">Search</Typography>
-      </Button>
+      <SearchBar onSearch={handleSearch} />
+      <SearchResults results={results} />
     </Container>
   );
 };
