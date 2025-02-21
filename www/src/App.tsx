@@ -1,28 +1,29 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { Container, Typography } from '@mui/material';
-import { SearchBar } from './components/SearchBar.tsx';
-import { SearchResults } from './components/SearchResults.tsx';
-import { search } from './api/search';
+import { SearchBar } from './components/SearchBar';
+import { SearchResults } from './components/SearchResults';
+import { QueryHistory } from './components/QueryHistory';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from './store';
+import { fetchQueryHistory } from './store/queryHistorySlice';
 
 export const App = () => {
-  const [results, setResults] = useState<{ title: string; url: string }[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handleSearch = async (query: string) => {
-    try {
-      const data = await search(query);
-      setResults(data);
-    } catch (error) {
-      console.error('Error fetching search results:', error);
-    }
-  };
+  useEffect(() => {
+    dispatch(fetchQueryHistory());
+  }, [dispatch]);
 
   return (
-    <Container sx={{ mt: 5 }}>
-      <Typography variant="h5" color="primary" gutterBottom>
-        🐥 Search360
-      </Typography>
-      <SearchBar onSearch={handleSearch} />
-      <SearchResults results={results} />
-    </Container>
+    <>
+      <QueryHistory />
+      <Container sx={{ ml: 30, mt: 5 }}>
+        <Typography variant="h5" color="primary" gutterBottom>
+          🐥 Search360
+        </Typography>
+        <SearchBar />
+        <SearchResults />
+      </Container>
+    </>
   );
 };

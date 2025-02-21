@@ -1,22 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TextField, Button, Box } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from '../store';
+import { updateQuery, performSearch } from '../store/searchSlice';
 
-interface SearchBarProps {
-  onSearch: (query: string) => void;
-}
+export const SearchBar = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const query = useSelector((state: RootState) => state.search.query);
+  const [searchTerm, setSearchTerm] = useState(query);
 
-export const SearchBar = ({ onSearch }: SearchBarProps) => {
-  const [query, setQuery] = useState('');
+  useEffect(() => {
+    setSearchTerm(query);
+  }, [query]);
 
-  const handleSearch = () => query.trim() && onSearch(query);
+  const handleSearch = () => {
+    if (searchTerm.trim()) {
+      dispatch(updateQuery(searchTerm));
+      dispatch(performSearch(searchTerm));
+    }
+  };
 
   return (
     <Box display="flex" gap={2} sx={{ mt: 3 }}>
       <TextField
         variant="outlined"
         placeholder="Search"
-        value={query}
-        onChange={e => setQuery(e.target.value)}
+        value={searchTerm}
+        onChange={e => setSearchTerm(e.target.value)}
         fullWidth
       />
       <Button variant="contained" color="primary" onClick={handleSearch}>

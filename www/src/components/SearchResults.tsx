@@ -5,16 +5,18 @@ import {
   ListItemButton,
   ListItemText,
   Typography,
+  CircularProgress,
 } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 
-interface SearchResultsProps {
-  results: {
-    title: string;
-    url: string;
-  }[];
-}
+export const SearchResults = () => {
+  const { results, loading, error } = useSelector(
+    (state: RootState) => state.search
+  );
 
-export const SearchResults = ({ results }: SearchResultsProps) => {
+  if (loading) return <CircularProgress sx={{ mt: 3 }} />;
+  if (error) return <Typography color="error">❌ {error}</Typography>;
   if (results.length === 0)
     return <Typography variant="h6">No results found.</Typography>;
 
