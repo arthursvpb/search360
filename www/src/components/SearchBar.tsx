@@ -23,6 +23,7 @@ export const SearchBar = () => {
   return (
     <Box display="flex" gap={2} sx={{ mt: 3 }}>
       <TextField
+        sx={{ width: '320px' }}
         variant="outlined"
         placeholder="Search"
         value={searchTerm}

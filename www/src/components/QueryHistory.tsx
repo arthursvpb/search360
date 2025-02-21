@@ -30,9 +30,11 @@ export const QueryHistory = () => {
   };
 
   return (
-    <Drawer variant="permanent" anchor="left" sx={{ width: 250 }}>
+    <Drawer variant="permanent" anchor="left">
       <Box sx={{ width: 250, p: 2 }}>
-        <Typography variant="h6">Search History</Typography>
+        <Typography textAlign="center" variant="h6">
+          History
+        </Typography>
 
         {loading && <CircularProgress />}
         {error && <Typography color="error">{error}</Typography>}
@@ -43,7 +45,19 @@ export const QueryHistory = () => {
               <ListItemButton
                 onClick={() => handleSelectQuery(entry.searchTerm)}
               >
-                <ListItemText primary={entry.searchTerm} />
+                <ListItemText
+                  primary={entry.searchTerm}
+                  secondary={new Date(entry.createdAt).toLocaleDateString(
+                    'en-us',
+                    {
+                      weekday: 'short',
+                      month: 'short',
+                      day: 'numeric',
+                      hour: 'numeric',
+                      minute: '2-digit',
+                    }
+                  )}
+                />
               </ListItemButton>
             </ListItem>
           ))}

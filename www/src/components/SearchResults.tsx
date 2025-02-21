@@ -17,8 +17,7 @@ export const SearchResults = () => {
 
   if (loading) return <CircularProgress sx={{ mt: 3 }} />;
   if (error) return <Typography color="error">❌ {error}</Typography>;
-  if (results.length === 0)
-    return <Typography variant="h6">No results found.</Typography>;
+  if (results.length === 0) return <Typography mt={2}>No results.</Typography>;
 
   return (
     <Box mt={3}>

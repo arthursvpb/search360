@@ -17,7 +17,7 @@ export const App = () => {
   return (
     <>
       <QueryHistory />
-      <Container sx={{ ml: 30, mt: 5 }}>
+      <Container sx={{ mt: 5 }}>
         <Typography variant="h5" color="primary" gutterBottom>
           🐥 Search360
         </Typography>
