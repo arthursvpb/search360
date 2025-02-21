@@ -6,21 +6,31 @@ import {
   ListItemText,
   Typography,
   CircularProgress,
+  Button,
 } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../store';
+import { setCurrentPage } from '../store/searchSlice';
 import { highlightTextWithCount } from '../utils/search';
 
 export const SearchResults = () => {
-  const { results, loading, error, query } = useSelector(
-    (state: RootState) => state.search
-  );
+  const dispatch = useDispatch<AppDispatch>();
+  const { results, loading, error, query, currentPage, itemsPerPage } =
+    useSelector((state: RootState) => state.search);
 
   if (loading) return <CircularProgress sx={{ mt: 3 }} />;
   if (error) return <Typography color="error">❌ {error}</Typography>;
   if (results.length === 0) return <Typography mt={2}>No results.</Typography>;
 
-  const totalOccurrences = results.reduce((sum, result) => {
+  const totalPages = Math.ceil(results.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedResults = results.slice(startIndex, startIndex + itemsPerPage);
+
+  const handlePageChange = (newPage: number) => {
+    dispatch(setCurrentPage(newPage));
+  };
+
+  const totalOccurrences = paginatedResults.reduce((sum, result) => {
     const { count } = highlightTextWithCount(result.title, query);
     return sum + count;
   }, 0);
@@ -34,7 +44,7 @@ export const SearchResults = () => {
         </Typography>
       )}
       <List>
-        {results.map((result, index) => {
+        {paginatedResults.map((result, index) => {
           const { highlightedText } = highlightTextWithCount(
             result.title,
             query
@@ -54,6 +64,34 @@ export const SearchResults = () => {
           );
         })}
       </List>
+
+      {totalPages > 1 && (
+        <Box
+          mt={3}
+          display="flex"
+          justifyContent="center"
+          gap={2}
+          width="320px"
+        >
+          <Button
+            variant="contained"
+            disabled={currentPage === 1}
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
+            Previous
+          </Button>
+          <Typography variant="body1">
+            Page {currentPage} of {totalPages}
+          </Typography>
+          <Button
+            variant="contained"
+            disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(currentPage + 1)}
+          >
+            Next
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 };

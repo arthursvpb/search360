@@ -5,6 +5,8 @@ import { addQueryToHistory } from './queryHistorySlice';
 interface SearchState {
   query: string;
   results: { title: string; url: string }[];
+  currentPage: number;
+  itemsPerPage: number;
   loading: boolean;
   error: string | null;
 }
@@ -12,6 +14,8 @@ interface SearchState {
 const initialState: SearchState = {
   query: '',
   results: [],
+  currentPage: 1,
+  itemsPerPage: 2,
   loading: false,
   error: null,
 };
@@ -40,6 +44,12 @@ const searchSlice = createSlice({
     updateQuery(state, action) {
       state.query = action.payload;
     },
+    setCurrentPage(state, action) {
+      state.currentPage = action.payload;
+    },
+    setItemsPerPage(state, action) {
+      state.itemsPerPage = action.payload;
+    },
   },
   extraReducers: builder => {
     builder
@@ -58,5 +68,6 @@ const searchSlice = createSlice({
   },
 });
 
-export const { updateQuery } = searchSlice.actions;
+export const { updateQuery, setCurrentPage, setItemsPerPage } =
+  searchSlice.actions;
 export default searchSlice.reducer;
