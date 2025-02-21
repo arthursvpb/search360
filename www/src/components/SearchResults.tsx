@@ -10,8 +10,10 @@ import {
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 
+import { highlightText } from '../utils/highlightText';
+
 export const SearchResults = () => {
-  const { results, loading, error } = useSelector(
+  const { results, loading, error, query } = useSelector(
     (state: RootState) => state.search
   );
 
@@ -25,7 +27,7 @@ export const SearchResults = () => {
         {results.map((result, index) => (
           <ListItem key={index} component="a" href={result.url} target="_blank">
             <ListItemButton>
-              <ListItemText primary={result.title} />
+              <ListItemText primary={highlightText(result.title, query)} />
             </ListItemButton>
           </ListItem>
         ))}
