@@ -28,6 +28,12 @@ Search360 is a full-stack web application that enables users to search the web u
 ✅ **Persistent query history stored in SQLite**  
 ✅ **Built with React, Redux, NestJS, SQLite, and Redis**
 
+## 📈 System Design Overview
+
+<p align="center">
+  <img alt="Search360-SystemDesign" src=".github/images/system-design.png" width="100%">
+</p>
+
 ## 💻 **Running**
 
 ### **Requirements**
